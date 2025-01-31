@@ -8,11 +8,11 @@ De bot controleert of gebruikers scheldwoorden gebruiken en spreekt hen hierop a
 - **grap**: Wanneer een gebruiker het woord "grap" in een bericht verwerkt, zoals "ModBot, vertel me een grap", zal de bot een grap vertellen.
 - **steen papier schaar**: Door de woorden "steen papier schaar" samen met de gewenste hand in een bericht te zetten, zoals "Speel steen papier schaar met me, ik speel steen", kun je het spel spelen tegen de bot. ModBot kiest vervolgens willekeurig een hand en bepaalt wie de winnaar is.
 
-## Dependencies
+## Afhankelijkheden
 
 Dit project bestaat uit twee n8n-workflows, die beide gebruikmaken van de "n8n-nodes-bit-discord" package. Deze package is een aangepaste versie van "n8n-nodes-discord", ontwikkeld door een van onze mede-studenten, omdat de originele package verouderd was.
 
-## How to run
+## Hoe run ik het?
 
 Om dit project goed te laten draaien, zijn de volgende componenten nodig:
 - **Docker**: Vereist om n8n correct uit te voeren.
@@ -20,6 +20,11 @@ Om dit project goed te laten draaien, zijn de volgende componenten nodig:
 - **Supabase**: Gebruikt voor het beheren van eenvoudige databases, wat essentieel is voor dit project.
 
 ## Meet the team
+
+Retrospective:
+- **Verdergaan**: Blijven doorzetten wanneer het fout gaat.
+- **Starten**: Goed beredeneren welke tools we gaan gebruiken voordat we starten.
+- **Stoppen**: Minder tunnel vissie hebben.
 
 ### Son Bram van der Burg
 
