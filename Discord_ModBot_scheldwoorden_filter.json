@@ -114,7 +114,7 @@
           "value": "1333736800501370901",
           "mode": "id"
         },
-        "content": "={{ $('Bit Discord Trigger').item.json.authorName }}, je hebt op dit moment al {{ $json.waarschuwingen + 1}} waarchuwingen!",
+        "content": "={{ $('Bit Discord Trigger').item.json.authorName }}, je hebt op dit moment al {{ $json.waarschuwingen }} waarchuwingen!",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -654,7 +654,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "2ad58c72-1097-4752-bb2f-d5d24ba931a2",
+  "versionId": "17d8d984-5cab-4c54-b314-30ad7f4e81e0",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "ded4f54648ed00a57e25eaa9c0a8d18719db51845c4893825285023399a6d959"
