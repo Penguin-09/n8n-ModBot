@@ -1,0 +1,734 @@
+{
+  "name": "Discord ModBot command proccesor",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "databaseId": 177614,
+        "tableId": 436032,
+        "rowId": "={{ Math.floor(Math.random() * 10) + 1; }}"
+      },
+      "type": "n8n-nodes-base.baserow",
+      "typeVersion": 1,
+      "position": [
+        460,
+        -100
+      ],
+      "id": "7b547cd9-be42-489d-8b73-8e4b2d2a345f",
+      "name": "Laad een random grap",
+      "credentials": {
+        "baserowApi": {
+          "id": "DjnIvBTgY6I1FoBF",
+          "name": "Baserow account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1166332398435307591",
+          "mode": "list",
+          "cachedResultName": "ModBot Test Server",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1333729847087988797",
+          "mode": "list",
+          "cachedResultName": "bot-chat",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591/1333729847087988797"
+        },
+        "content": "={{ $json.grap }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        680,
+        -100
+      ],
+      "id": "86673f03-f57b-4e36-9e95-b57f5f355db0",
+      "name": "Stuur de grap",
+      "credentials": {
+        "discordBotApi": {
+          "id": "vUrE6aKYyQfvVRWO",
+          "name": "ModBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "grap",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "grap"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1b241d94-5b4c-45ab-a168-2c63be974f9e",
+                    "leftValue": "={{ $json.content }}",
+                    "rightValue": "steen papier schaar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "steen papier schaar"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        220,
+        -20
+      ],
+      "id": "3aaf719c-c1d8-4df5-a37d-4f3f7e43ccb0",
+      "name": "Check welk commando er wordt gebruikt"
+    },
+    {
+      "parameters": {
+        "jsCode": "let botGekozenHand = Math.floor(Math.random() * 3) + 1;\nreturn [{ json: { botGekozenHand } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        100
+      ],
+      "id": "0986781d-71c3-45f5-82cf-b1358ebea301",
+      "name": "Kies welke hand de bot speelt"
+    },
+    {
+      "parameters": {
+        "content": "## Grap commando\n",
+        "height": 80,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -240
+      ],
+      "id": "01379bac-a430-49bf-a8de-1f5c8bc06532",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Steen papier schaar commando",
+        "height": 80,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        420,
+        280
+      ],
+      "id": "790d6314-993d-40f7-a690-069e217d217e",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "let chatterBericht = $input.first().json.content;\nlet nieuwBericht = chatterBericht.replace(\"steen papier schaar\", \"\");\n\nlet chatterGekozenHand = 0;\n\nif (nieuwBericht.includes(\"steen\")) {\n  chatterGekozenHand = \"steen\";\n} else if (nieuwBericht.includes(\"papier\")) {\n  chatterGekozenHand = \"papier\";\n} else if (nieuwBericht.includes(\"schaar\")) {\n  chatterGekozenHand = \"schaar\";\n} else {\n  chatterGekozenHand = \"niks\";\n}\n\nreturn [{ json: { chatterGekozenHand } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        120
+      ],
+      "id": "8172950f-6cfa-4188-9cd8-87f9a3e6116a",
+      "name": "Determineer welke hand de chatter speelt"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5b58d9f5-2e44-478d-a893-0e35e277438c",
+              "leftValue": "={{ $json.chatterGekozenHand }}",
+              "rightValue": "niks",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        680,
+        120
+      ],
+      "id": "fd5b25ee-5127-4c00-99ad-4fc4d87317ab",
+      "name": "Check of de chatter hand 0 is"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1166332398435307591",
+          "mode": "list",
+          "cachedResultName": "ModBot Test Server",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1333729847087988797",
+          "mode": "list",
+          "cachedResultName": "bot-chat",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591/1333729847087988797"
+        },
+        "content": "Je moet steen, papier of schaar spelen op de volgende manier:\n\nsteen papier schaar <jouw keuze>\n\nSucces!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        940,
+        380
+      ],
+      "id": "fd1b7779-626d-41e9-a14e-283fe4a9b69a",
+      "name": "Stuur een error bericht",
+      "credentials": {
+        "discordBotApi": {
+          "id": "vUrE6aKYyQfvVRWO",
+          "name": "ModBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let botGekozenHandTekst = \"error\";\n\nswitch ($input.first().json.botGekozenHand) {\n  case 1:\n    botGekozenHandTekst = \"steen\";\n    break;\n  case 2:\n    botGekozenHandTekst = \"papier\";\n    break;\n  case 3:\n    botGekozenHandTekst = \"schaar\";\n    break;\n}\n\nreturn [{ json: { botGekozenHandTekst } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        100
+      ],
+      "id": "1239b76e-61f5-45f0-96cf-dc7be82c9fa4",
+      "name": "Zet de bot hand om naar tekst"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1166332398435307591",
+          "mode": "list",
+          "cachedResultName": "ModBot Test Server",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1333729847087988797",
+          "mode": "list",
+          "cachedResultName": "bot-chat",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591/1333729847087988797"
+        },
+        "content": "=Ik kies {{ $('Zet de bot hand om naar tekst').item.json.botGekozenHandTekst }}\nWe hebben hetzelfde gespeeld!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        80
+      ],
+      "id": "99a7adb1-f27e-4b78-a778-0fdd3c9cf022",
+      "name": "Gelijkspel",
+      "credentials": {
+        "discordBotApi": {
+          "id": "vUrE6aKYyQfvVRWO",
+          "name": "ModBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1166332398435307591",
+          "mode": "list",
+          "cachedResultName": "ModBot Test Server",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1333729847087988797",
+          "mode": "list",
+          "cachedResultName": "bot-chat",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591/1333729847087988797"
+        },
+        "content": "=Ik kies {{ $('Zet de bot hand om naar tekst').item.json.botGekozenHandTekst }}\nJe hebt gewonnen!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        700
+      ],
+      "id": "33daf5ac-05d4-444c-afd2-28a3fe8c0a52",
+      "name": "Speler wint",
+      "credentials": {
+        "discordBotApi": {
+          "id": "vUrE6aKYyQfvVRWO",
+          "name": "ModBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1166332398435307591",
+          "mode": "list",
+          "cachedResultName": "ModBot Test Server",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1333729847087988797",
+          "mode": "list",
+          "cachedResultName": "bot-chat",
+          "cachedResultUrl": "https://discord.com/channels/1166332398435307591/1333729847087988797"
+        },
+        "content": "=Ik kies {{ $('Zet de bot hand om naar tekst').item.json.botGekozenHandTekst }}\nIk win!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1940,
+        480
+      ],
+      "id": "19df4ea9-ecad-4b0b-8618-d72052a66485",
+      "name": "Bot wint",
+      "credentials": {
+        "discordBotApi": {
+          "id": "vUrE6aKYyQfvVRWO",
+          "name": "ModBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8288421e-483c-4831-9e84-724d5d26d3ec",
+              "leftValue": "={{ $json.botGekozenHandTekst }}",
+              "rightValue": "steen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ab147ae7-3954-491f-8802-9f6b9ff4d328",
+              "leftValue": "={{ $('Check of de chatter hand 0 is').item.json.chatterGekozenHand }}",
+              "rightValue": "schaar",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1480,
+        300
+      ],
+      "id": "c761ec28-a136-44dd-aaa1-18b36637f1dd",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e1bcf85b-5ca0-49d7-8468-8c2f089382b8",
+              "leftValue": "={{ $json.botGekozenHandTekst }}",
+              "rightValue": "schaar",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "749bfcb1-17f9-4728-818c-74564c11188d",
+              "leftValue": "={{ $('Check of de chatter hand 0 is').item.json.chatterGekozenHand }}",
+              "rightValue": "papier",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        500
+      ],
+      "id": "9e8c7500-814b-45c8-9f3b-59cfe459dad3",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b0dbd3bf-d960-4539-8cb5-c419696a8c44",
+              "leftValue": "={{ $json.botGekozenHandTekst }}",
+              "rightValue": "papier",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "0e5cb97b-106f-4ee2-aea0-bb6236157fdd",
+              "leftValue": "={{ $('Check of de chatter hand 0 is').item.json.chatterGekozenHand }}",
+              "rightValue": "steen",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1720,
+        680
+      ],
+      "id": "e57b551a-0620-4330-bfb2-e1f74436ba24",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9da164f1-5028-4319-b001-30c617b727b7",
+              "leftValue": "={{ $json.botGekozenHandTekst }}",
+              "rightValue": "={{ $('Check of de chatter hand 0 is').item.json.chatterGekozenHand }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1340,
+        100
+      ],
+      "id": "71dae63d-e947-4aa6-8b53-ca71940ba608",
+      "name": "If3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-bit-discord.bitDiscordTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -20
+      ],
+      "id": "2517122d-d7af-4a2b-9729-959d2dc38bb2",
+      "name": "Bit Discord Trigger",
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "I1OWmMtC4D1hqelQ",
+          "name": "Discord Bot Trigger account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Laad een random grap": {
+      "main": [
+        [
+          {
+            "node": "Stuur de grap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check welk commando er wordt gebruikt": {
+      "main": [
+        [
+          {
+            "node": "Laad een random grap",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Determineer welke hand de chatter speelt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kies welke hand de bot speelt": {
+      "main": [
+        [
+          {
+            "node": "Zet de bot hand om naar tekst",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determineer welke hand de chatter speelt": {
+      "main": [
+        [
+          {
+            "node": "Check of de chatter hand 0 is",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check of de chatter hand 0 is": {
+      "main": [
+        [
+          {
+            "node": "Kies welke hand de bot speelt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stuur een error bericht",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Stuur een error bericht": {
+      "main": [
+        []
+      ]
+    },
+    "Zet de bot hand om naar tekst": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Bot wint",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Bot wint",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Bot wint",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Speler wint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Gelijkspel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bit Discord Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check welk commando er wordt gebruikt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "10882702-99cb-46ab-9ee6-414bf8593290",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ded4f54648ed00a57e25eaa9c0a8d18719db51845c4893825285023399a6d959"
+  },
+  "id": "SVQtZhRApojeWxLp",
+  "tags": []
+}
